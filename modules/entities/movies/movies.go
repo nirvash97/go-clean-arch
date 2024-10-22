@@ -5,20 +5,20 @@ import (
 )
 
 type Movie struct {
-	Title           string    `bson:"title"`
-	Genres          []string  `bson:"genres"`
-	Runtime         int       `bson:"runtime"`
-	Imdb            MovieImdb `bson:"imdb"`
-	Plot            string    `bson:"plot"`
-	Rated           string    `bson:"rated"`
-	Cast            []string  `bson:"cast"`
-	NumMflixComment int       `bson:"num_mflix_comments"`
-	Poster          string    `bson:"poster"`
-	Fullplot        string    `bson:"fullplot"`
-	Languages       []string  `bson:"languages"`
-	Released        time.Time `bson:"released"`
-	Directors       []string  `bson:"directors"`
-	Writers         []string  `bson:"writers"`
+	Title           string    `json:"title"`
+	Genres          []string  `json:"genres"`
+	Runtime         int       `json:"runtime"`
+	Imdb            MovieImdb `json:"imdb"`
+	Plot            string    `json:"plot"`
+	Rated           string    `json:"rated"`
+	Cast            []string  `json:"cast"`
+	NumMflixComment int       `json:"num_mflix_comments"`
+	Poster          string    `json:"poster"`
+	Fullplot        string    `json:"fullplot"`
+	Languages       []string  `json:"languages"`
+	Released        time.Time `json:"released"`
+	Directors       []string  `json:"directors"`
+	Writers         []string  `json:"writers"`
 }
 
 type MovieImdb struct {
