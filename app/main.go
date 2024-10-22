@@ -34,6 +34,7 @@ func main() {
 
 	// Define Route
 	r.HandleFunc("/movie/languages/{language}", movieHandler.GetMovieBylanguage).Methods("GET")
+	r.HandleFunc("/movie/language/pagination/{language}", movieHandler.GetMovieByLanguagePagination).Methods("GET")
 	log.Println("Server is listening on port :: 8081 ")
 	server := &http.Server{
 		Addr:         ":8081",

@@ -44,3 +44,35 @@ func (r *MovieMongoRepo) GetMovieByLanguage(language string) ([]movies.Movie, er
 	return movies, nil
 
 }
+
+func (r *MovieMongoRepo) GetMovieByLanguagePagination(language string, page int64, perPage int64) ([]movies.Movie, error) {
+	var movies []movies.Movie
+	filter := bson.D{{Key: "languages", Value: bson.D{{Key: "$in", Value: bson.A{language}}}}}
+	option := options.Find()
+	option.SetLimit(10)
+	skip := (page - 1) * perPage
+	option.SetSkip(skip)
+
+	cursor, err := r.collection.Find(context.Background(), filter, option)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(context.Background())
+	if err = cursor.All(context.Background(), &movies); err != nil {
+		return nil, err
+	}
+
+	return movies, nil
+}
+
+func (r *MovieMongoRepo) GetMovieByLanguageItemCount(language string) (int64, error) {
+
+	filter := bson.D{{Key: "languages", Value: bson.D{{Key: "$in", Value: bson.A{language}}}}}
+
+	itemCount, err := r.collection.CountDocuments(context.Background(), filter)
+	if err != nil {
+		return 0, err
+	}
+
+	return itemCount, nil
+}

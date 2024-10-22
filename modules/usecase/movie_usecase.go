@@ -17,3 +17,13 @@ func (uc *MovieUsecase) GetMovieByLanguage(language string) ([]movies.Movie, err
 	movie, err := uc.repo.GetMovieByLanguage(language)
 	return movie, err
 }
+
+func (uc *MovieUsecase) GetMovieByLanguagePagination(language string, page int64, perPage int64) ([]movies.Movie, error) {
+	movie, err := uc.repo.GetMovieByLanguagePagination(language, page, perPage)
+	return movie, err
+}
+
+func (uc *MovieUsecase) GetMovieByLanguageItemCount(language string) (int64, error) {
+	itemCount, err := uc.repo.GetMovieByLanguageItemCount(language)
+	return itemCount, err
+}
