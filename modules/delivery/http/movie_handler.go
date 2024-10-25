@@ -63,13 +63,13 @@ func (h *MovieHandler) GetMovieByLanguagePagination(w http.ResponseWriter, r *ht
 	pageInt, err := strconv.ParseInt(page, 10, 64)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, "Query Param 'page' is required", http.StatusBadRequest)
 		return
 	}
 
 	perPageInt, err := strconv.ParseInt(perPage, 10, 64)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, "Query Param 'perPage' is required", http.StatusBadRequest)
 		return
 	}
 	var regexLetter = regexp.MustCompile(`^[a-zA-Z]+$`)

@@ -28,13 +28,19 @@ func main() {
 	movieUseCase := usecase.NewMovieUsecase(movieRepo)
 	movieHandler := handler.NewMovieHandler(movieUseCase)
 
+	// Auth Service
+	authRepo := repositories.NewAuthMongoRepo(db)
+	authUsecase := usecase.NewAuthUsecase(authRepo)
+	authHandler := handler.NewAuthHandler(authUsecase)
+
 	// Setup router
 
 	r := mux.NewRouter()
 
 	// Define Route
-	r.HandleFunc("/movie/languages/{language}", movieHandler.GetMovieBylanguage).Methods("GET")
-	r.HandleFunc("/movie/language/pagination/{language}", movieHandler.GetMovieByLanguagePagination).Methods("GET")
+	go r.HandleFunc("/movie/languages/{language}", movieHandler.GetMovieBylanguage).Methods("GET")
+	go r.HandleFunc("/movie/language/pagination/{language}", movieHandler.GetMovieByLanguagePagination).Methods("GET")
+	go r.HandleFunc("/signUp", authHandler.HandleSignUp).Methods("POST")
 	log.Println("Server is listening on port :: 8081 ")
 	server := &http.Server{
 		Addr:         ":8081",
