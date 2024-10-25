@@ -27,6 +27,11 @@ func (uc *AuthUsecase) HashPassword(password string) (string, error) {
 }
 
 func (uc *AuthUsecase) HandleSignUp(detail auth.UserAuth) error {
-	error := uc.repo.HandleSignUp(detail)
-	return error
+	err := uc.repo.HandleSignUp(detail)
+	return err
+}
+
+func (uc *AuthUsecase) HandleSignIn(username string) (auth.UserAuth, error) {
+	userDetail, err := uc.repo.HandleSignIn(username)
+	return userDetail, err
 }

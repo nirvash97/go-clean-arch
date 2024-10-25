@@ -41,6 +41,7 @@ func main() {
 	go r.HandleFunc("/movie/languages/{language}", movieHandler.GetMovieBylanguage).Methods("GET")
 	go r.HandleFunc("/movie/language/pagination/{language}", movieHandler.GetMovieByLanguagePagination).Methods("GET")
 	go r.HandleFunc("/signUp", authHandler.HandleSignUp).Methods("POST")
+	go r.HandleFunc("/signIn", authHandler.HandleAuth).Methods("POST")
 	log.Println("Server is listening on port :: 8081 ")
 	server := &http.Server{
 		Addr:         ":8081",
