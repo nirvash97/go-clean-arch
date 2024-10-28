@@ -2,16 +2,16 @@ package usecase
 
 import (
 	"go-clean-arch/modules/entities/auth"
-	"go-clean-arch/modules/repositories"
+	"go-clean-arch/modules/repositories/authrepo"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthUsecase struct {
-	repo repositories.AuthRepository
+	repo authrepo.AuthRepository
 }
 
-func NewAuthUsecase(repo repositories.AuthRepository) *AuthUsecase {
+func NewAuthUsecase(repo authrepo.AuthRepository) *AuthUsecase {
 	return &AuthUsecase{repo: repo}
 }
 

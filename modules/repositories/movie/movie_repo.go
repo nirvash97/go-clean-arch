@@ -1,4 +1,4 @@
-package repositories
+package movierepo
 
 import (
 	"go-clean-arch/modules/entities/movies"

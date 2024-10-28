@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"go-clean-arch/modules/entities/movies"
-	"go-clean-arch/modules/repositories"
+	repositories "go-clean-arch/modules/repositories/movie"
 )
 
 type MovieUsecase struct {

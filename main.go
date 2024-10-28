@@ -4,7 +4,9 @@ import (
 	"context"
 	"go-clean-arch/modules/database/client"
 	handler "go-clean-arch/modules/delivery/http"
-	"go-clean-arch/modules/repositories"
+	"go-clean-arch/modules/repositories/authrepo"
+	movierepo "go-clean-arch/modules/repositories/movie"
+
 	"go-clean-arch/modules/usecase"
 	middleware "go-clean-arch/pkg/middlewares"
 	"log"
@@ -24,12 +26,12 @@ func main() {
 
 	db := client.Database("sample_mflix")
 	// Initialize repository, use case, and handler
-	movieRepo := repositories.NewMovieMongoRepo(db)
+	movieRepo := movierepo.NewMovieMongoRepo(db)
 	movieUseCase := usecase.NewMovieUsecase(movieRepo)
 	movieHandler := handler.NewMovieHandler(movieUseCase)
 
 	// Auth Service
-	authRepo := repositories.NewAuthMongoRepo(db)
+	authRepo := authrepo.NewAuthMongoRepo(db)
 	authUsecase := usecase.NewAuthUsecase(authRepo)
 	authHandler := handler.NewAuthHandler(authUsecase)
 

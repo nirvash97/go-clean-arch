@@ -1,4 +1,4 @@
-package repositories
+package movierepo
 
 import (
 	"context"
