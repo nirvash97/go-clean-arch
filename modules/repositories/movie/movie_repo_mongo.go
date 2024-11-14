@@ -43,14 +43,14 @@ func (r *MovieMongoRepo) GetMovieByLanguage(language string) ([]movies.Movie, er
 	filter := bson.D{{Key: "languages", Value: bson.D{{Key: "$in", Value: bson.A{language}}}}}
 	option := options.Find()
 	option.SetLimit(10)
-	// option.SetProjection(bson.D{
-	// 	{Key: "title", Value: 1},
-	// 	{Key: "year", Value: 1},
-	// 	{Key: "runtime", Value: 1},
-	// 	{Key: "imdb", Value: 1},
-	// 	// {Key: "released", Value: 1},
-	// 	{Key: "languages", Value: 1},
-	// })
+	option.SetProjection(bson.D{
+		{Key: "title", Value: 1},
+		{Key: "year", Value: 1},
+		{Key: "runtime", Value: 1},
+		{Key: "imdb", Value: 1},
+		{Key: "released", Value: 1},
+		{Key: "languages", Value: 1},
+	})
 	cursor, err := r.collection.Find(context.Background(), filter, option)
 	if err != nil {
 		return nil, err
