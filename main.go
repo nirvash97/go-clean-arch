@@ -8,6 +8,8 @@ import (
 func main() {
 	e := service.InitService()
 	e.Use(middleware.RequestLogger)
+	e.Use(middleware.AuthInterceptor)
+
 	e.Logger.Fatal(e.Start(":8081"))
 }
 
