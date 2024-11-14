@@ -5,6 +5,7 @@ import (
 )
 
 type MovieRepository interface {
+	GetMoviesTest() ([]movies.Movie, error)
 	GetMovieByLanguage(languages string) ([]movies.Movie, error)
 	//GetAllMovie() ([]movies.Movie, error)
 	GetMovieByLanguagePagination(language string, page int64, perPage int64) ([]movies.Movie, error)

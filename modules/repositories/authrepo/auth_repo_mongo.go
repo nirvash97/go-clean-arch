@@ -3,7 +3,6 @@ package authrepo
 import (
 	"context"
 	"go-clean-arch/modules/entities/auth"
-	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -13,7 +12,8 @@ type AuthMongoRepo struct {
 	collection *mongo.Collection
 }
 
-func NewAuthMongoRepo(db *mongo.Database) *AuthMongoRepo {
+func NewAuthMongoRepo(client *mongo.Client) *AuthMongoRepo {
+	db := client.Database("sample_mflix")
 	return &AuthMongoRepo{
 		collection: db.Collection("auth"),
 	}
@@ -24,7 +24,6 @@ func (r *AuthMongoRepo) IsUsernameExist(username string) bool {
 	var existUser auth.UserAuth
 	err := r.collection.FindOne(context.Background(), filter).Decode(&existUser)
 	if err == nil {
-		log.Println(existUser)
 		return true
 	} else {
 		return false
