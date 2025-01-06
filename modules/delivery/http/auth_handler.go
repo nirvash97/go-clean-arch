@@ -111,7 +111,9 @@ func (h *AuthHandler) HandlerSignIn(c echo.Context) error {
 
 	}
 	//c.Response().Header().Set("Content-Type", "application/json")
-	return c.JSON(http.StatusOK, tokenString)
+	return c.JSON(http.StatusOK, map[string]string{
+		"token": tokenString,
+	})
 }
 
 // ================== MUX Gorilla ====================
