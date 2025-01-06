@@ -4,6 +4,7 @@ import (
 	"go-clean-arch/modules/database/client"
 	"go-clean-arch/modules/delivery/http"
 	"go-clean-arch/modules/repositories/authrepo"
+	examrepo "go-clean-arch/modules/repositories/examerpo"
 	movierepo "go-clean-arch/modules/repositories/movie"
 	"go-clean-arch/modules/usecase"
 	"log"
@@ -32,6 +33,10 @@ func InitService() *echo.Echo {
 	authRepo := authrepo.NewAuthMongoRepo(client)
 	authuseCase := usecase.NewAuthUsecase(authRepo)
 	http.NewAuthHandler(e, authuseCase)
+
+	examRepo := examrepo.NewExamMongoRepo(client)
+	examUsecase := usecase.NewExamUsecase(examRepo)
+	http.NewExamHandler(e, examUsecase)
 
 	return e
 }
