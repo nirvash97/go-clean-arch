@@ -29,7 +29,6 @@ func (h *AuthHandler) HandleEchoSignUp(c echo.Context) error {
 	username := c.Request().FormValue("username")
 	password := c.Request().FormValue("password")
 	mail := c.Request().FormValue("mail")
-
 	//username := r.FormValue("username")
 	if username == "" {
 		return c.JSON(http.StatusBadRequest, "`username` field is required !")
@@ -85,18 +84,16 @@ func (h *AuthHandler) HandlerSignIn(c echo.Context) error {
 	userDetail, errDetail := h.uc.HandleSignIn(username)
 	if errDetail != nil {
 		return c.JSON(http.StatusInternalServerError, errDetail.Error())
-
 	}
 	// ComparehashAndPassword must compare between hashed password and plain text password
 	err := bcrypt.CompareHashAndPassword([]byte(userDetail.Password), []byte(password))
-
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{
 			"message": "Your username or password is incorrect",
 		})
 	}
 
-	expireTime := time.Now().Add(5 * time.Minute)
+	expireTime := time.Now().Add(1 * time.Hour)
 	claims := auth.Claims{
 		Username: username,
 		RegisteredClaims: jwt.RegisteredClaims{

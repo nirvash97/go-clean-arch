@@ -49,6 +49,9 @@ func (r *ExamMongoRepo) GetUserById(id int) (*exam.ExamUser, error) {
 	filter := bson.D{{Key: "id", Value: id}}
 
 	err := r.collection.FindOne(context.Background(), filter).Decode(&userDetail)
+	if err == mongo.ErrNoDocuments {
+		return nil, nil
+	}
 	if err != nil {
 		return nil, err
 	}

@@ -66,13 +66,20 @@ func (h *ExamHandler) getUserById(c echo.Context) error {
 	idParam := c.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	userDetail, err := h.uc.GetUserById(id)
-
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
+
+	if userDetail == nil {
+		// Note ::  StatusNoConetent [204] can't return any json if want to return error must change to other status ex.404
+		return c.JSON(http.StatusNoContent, map[string]string{})
+		// Alternative when want to return empty json
+		// return c.NoContent(http.StatusNoContent)
+	}
+
 	return c.JSON(http.StatusOK, userDetail)
 }
 
