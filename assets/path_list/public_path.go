@@ -1,12 +1,20 @@
 package pathList
 
-func PublicPathConst() []string {
-	publicPath := []string{
-		"/auth/signUp",
-		"/auth/signIn",
-		"/exam/hello",
-		"/exam/user-list",
-		"/exam/user-list/:id",
+import "strings"
+
+func IsPathPublic(path string) bool {
+	prefixList := []string{
+		"/exam/",
 	}
-	return publicPath
+	for _, prefix := range prefixList {
+		if strings.HasPrefix(path, prefix) {
+			return true
+		}
+	}
+	var publicPath = map[string]struct{}{
+		"/auth/signUp": {},
+		"/auth/signIn": {},
+	}
+	_, isFound := publicPath[path]
+	return isFound
 }

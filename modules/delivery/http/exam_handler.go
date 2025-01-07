@@ -74,7 +74,7 @@ func (h *ExamHandler) getUserById(c echo.Context) error {
 	}
 
 	if userDetail == nil {
-		// Note ::  StatusNoConetent [204] can't return any json if want to return error must change to other status ex.404
+		// Note ::  StatusNoContent [204] can't return any json if want to return error must change to other status ex.404
 		return c.JSON(http.StatusNoContent, map[string]string{})
 		// Alternative when want to return empty json
 		// return c.NoContent(http.StatusNoContent)

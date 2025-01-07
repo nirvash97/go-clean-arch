@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"fmt"
+	"errors"
 
 	pathList "go-clean-arch/assets/path_list"
 	"go-clean-arch/modules/entities/auth"
@@ -14,20 +14,16 @@ import (
 
 func AuthInterceptor(next echo.HandlerFunc) echo.HandlerFunc {
 	var jwtKey = []byte("one_wish")
+	const userClaims = "user"
 	return func(c echo.Context) error {
-		for _, path := range pathList.PublicPathConst() {
-			if c.Request().RequestURI == path {
-				return next(c)
-			}
+
+		if pathList.IsPathPublic(c.Path()) {
+			return next(c)
 		}
+
 		raw := c.Request().Header.Get("Authorization")
 		tokenString := strings.TrimPrefix(raw, "Bearer ")
-		fmt.Println(tokenString)
 
-		// if(err := valida) {
-
-		// }
-		// return echo.ErrUnauthorized
 		// Parse and verify the token
 		claims := &auth.Claims{}
 		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
@@ -36,15 +32,25 @@ func AuthInterceptor(next echo.HandlerFunc) echo.HandlerFunc {
 			}
 			return jwtKey, nil
 		})
+		if err != nil {
+			if errors.Is(err, jwt.ErrSignatureInvalid) {
+				return c.JSON(http.StatusUnauthorized, map[string]interface{}{
+					"error": "Token signature invalid",
+				})
+			}
 
-		if err != nil || !token.Valid {
-			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Invalid or expired token"})
+			return c.JSON(http.StatusUnauthorized, map[string]interface{}{
+				"error": " Token Invalid",
+			})
+		}
+
+		if !token.Valid {
+			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Token Expire"})
 		}
 
 		// Set claims in context for further use
-		c.Set("user", claims)
+		c.Set(userClaims, claims)
 		return next(c)
 
 	}
-
 }
