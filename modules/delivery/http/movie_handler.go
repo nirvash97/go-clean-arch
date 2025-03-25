@@ -50,7 +50,7 @@ func (h *MovieHandler) GetEchoMovieBylanguage(c echo.Context) error {
 	// Check is empty [return 204]
 	if len(movies) <= 0 {
 
-		return c.JSON(http.StatusBadRequest, map[string]string{
+		return c.JSON(http.StatusNoContent, map[string]string{
 			"message": "no item found",
 		})
 	}
@@ -115,7 +115,12 @@ func (h *MovieHandler) GetEchoMovieByLanguagePagination(c echo.Context) error {
 			"message": "",
 		})
 	}
-	pattern := movies.MoviePagination{Page: pageInt, PerPage: perPageInt, TotalRow: itemCount, Data: movieList}
+	pattern := movies.MoviePagination{
+		Page:     pageInt,
+		PerPage:  perPageInt,
+		TotalRow: itemCount,
+		Data:     movieList,
+	}
 	c.Response().Header().Set("Content-Type", "application/json")
 
 	return c.JSON(http.StatusOK, pattern)
